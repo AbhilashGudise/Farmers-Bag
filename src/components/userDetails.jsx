@@ -26,12 +26,12 @@ const UserDetails = () => {
 //   }
     
 
-//   useEffect(() => {
-//      fetch("https://jsonplaceholder.typicode.com/posts")
-//     .then(res => res.json())
-//     .then(data => setData(data))
-//     .catch(error => console.error('Fetch error:', error))
-//   },[])
+  useEffect(() => {
+     fetch("https://jsonplaceholder.typicode.com/posts")
+    .then(res => res.json())
+    .then(data => setData(data))
+    .catch(error => console.error('Fetch error:', error))
+  },[])
 
 //   useEffect(() => {
 //     axios.get("https://jsonplaceholder.typicode.com/posts")
@@ -50,28 +50,25 @@ const UserDetails = () => {
   //   };
   //   loaddata();
   // }, [])
-  useEffect(() => {
-  const loaddata = async () => {
-  try {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-    
-    // Instead of .then(res => res.json())
-    const data = await res.json(); 
-    
-    // Instead of .then(data => console.log(...))
-    console.log("Response from server:", data);
-    setData(data.slice(0, 5));
+//   useEffect(() => {
+//   const loaddata = async () => {
+//   try {
+//     const res = await fetch("https://jsonplaceholder.typicode.com/posts");  
+//     // Instead of .then(res => res.json())
+//     const data = await res.json();    
+//     // Instead of .then(data => console.log(...))
+//     console.log("Response from server:", data);
+//     setData(data.slice(0, 5));
+//   } catch (error) {
+//     // Instead of .catch(...)
+//     console.error("Error submitting data:", error);
+//   }
+// };
+// // 2. Use the hook to "trigger" the function
+//     loaddata(); 
+//   }, []); 
 
-  } catch (error) {
-    // Instead of .catch(...)
-    console.error("Error submitting data:", error);
-  }
-};
 
-// 2. Use the hook to "trigger" the function
-
-    loaddata(); 
-  }, []);
   return(
     <>
       {data.map((item) =>{
@@ -99,3 +96,5 @@ const UserDetails = () => {
     )
 }
 export default UserDetails
+
+

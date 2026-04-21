@@ -9,6 +9,8 @@ const LoginPage = () => {
   const [gender, setGender] = useState("");
   const [agree, setAgree] = useState(false);
   const [city, setCity] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -17,15 +19,21 @@ const LoginPage = () => {
     setLoading(true);
     setError(null);
 
-    const formData = { name, email, password, gender, agree, city };
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('gender', gender);
+    formData.append('agree', agree);
+    formData.append('city', city);
+    if (image) {
+      formData.append('image', image);
+    }
 
     // Using a real mock API endpoint for testing
     fetch("https://jsonplaceholder.typicode.com/posts", {
       method: "POST", 
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+      body: formData,
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to send data");
@@ -108,7 +116,37 @@ return (
     <div style={styles.container}>
       <div style={styles.card}>
         <h2 style={styles.title}>User Registration</h2>
-        <form onSubmit={handleSubbmit}>
+        <form onSubmit={handleSubbmit}> 
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Profile Image</label>
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setImage(file);
+                if (file) {
+                  setImagePreview(URL.createObjectURL(file));
+                } else {
+                  setImagePreview(null);
+                }
+              }} 
+              style={styles.input}
+            />
+            {imagePreview && (
+              <img 
+                src={imagePreview} 
+                alt="Profile Preview" 
+                style={{ 
+                  width: "100px", 
+                  height: "100px", 
+                  borderRadius: "50%", 
+                  marginTop: "10px", 
+                  objectFit: "cover" 
+                }} 
+              />
+            )}
+          </div>
           <div style={styles.inputGroup}>
             <label style={styles.label}>Name</label>
             <input 
